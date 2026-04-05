@@ -1,0 +1,11 @@
+name: Bashrc Overwrite Test
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "echo 'ALERT: Your .bashrc was overwritten by gh path traversal'" > malicious.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: malicious-payload
+          path: malicious.txt
