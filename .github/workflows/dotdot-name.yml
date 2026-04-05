@@ -1,0 +1,11 @@
+name: DotDot Artifact Name
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "TRAVERSAL_TEST=$(date)" > pwn.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ".."
+          path: pwn.txt
