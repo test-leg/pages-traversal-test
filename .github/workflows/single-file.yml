@@ -1,0 +1,12 @@
+name: Single File Overwrite
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "alias pwn='echo \"VULNERABLE\"'" > malicious.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: malicious-payload
+          path: malicious.sh
