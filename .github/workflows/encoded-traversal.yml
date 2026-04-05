@@ -1,0 +1,27 @@
+name: Encoded Path Traversal
+on: workflow_dispatch
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "malicious content" > payload.txt
+          
+          # Create zip with payload
+          zip exploit.zip payload.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "%2e%2e"  # URL-encoded ".."
+          path: exploit.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "%252e%252e"  # Double-encoded ".."
+          path: exploit.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "...."  # Alternative pattern
+          path: exploit.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "..%00"  # Null byte
+          path: exploit.zip
