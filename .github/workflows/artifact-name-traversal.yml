@@ -1,0 +1,19 @@
+name: Artifact Name Traversal
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "malicious content" > payload.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ".."  # Try to traverse with artifact name
+          path: payload.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ".bashrc"  # Try to name as .bashrc
+          path: payload.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "../../../.bashrc"  # Try path in name
+          path: payload.txt
