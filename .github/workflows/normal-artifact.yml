@@ -1,0 +1,11 @@
+name: Normal Artifact Test
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test-$(date)" > payload.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "test-file"
+          path: payload.txt
