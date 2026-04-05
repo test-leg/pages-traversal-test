@@ -1,0 +1,22 @@
+name: Combined Path Traversal Test
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test" > payload.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "%2e%2e"
+          path: payload.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "...."
+          path: payload.txt
+      - run: |
+          ln -s ../../../../etc/passwd link
+          zip symlink.zip link
+      - uses: actions/upload-artifact@v4
+        with:
+          name: symlink-test
+          path: symlink.zip
